@@ -6,14 +6,15 @@
 
 <script>
   export default {
-    data () {
+    data() {
 
     },
 
-    created () {
+    created() {
 
     }
   }
+
 </script>
 
 <style></style>

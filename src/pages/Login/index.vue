@@ -1,14 +1,18 @@
 <template>
   <div>
-    登录
+    登录页面
   </div>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {}
     },
-    created () {}
+    created() {},
+    mounted() {
+
+    }
   }
+
 </script>
