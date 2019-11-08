@@ -3,7 +3,7 @@
  * @version:
  * @Author: liuminghao@benlai.com
  * @Date: 2019-08-22 16:49:55
- * @LastEditTime: 2019-11-07 19:21:14
+ * @LastEditTime: 2019-11-08 16:57:29
  */
 /**
  * isMobile 是否是移动端
@@ -356,6 +356,27 @@ const Fixed = (num, fixedNum = 2) => {
   }
 }
 
+const toast = (msg, types, duration) => {
+  msg = msg || ''
+  types = types || 'fail'
+  duration = duration || 1000
+  switch (types) {
+    case "success":// 成功
+      wx.showToast({title: msg, icon: "success", duration: duration})
+      break
+    case "fail":// 失败
+      wx.showToast({title: msg, icon: "fail", image: '/image/toast_fail.png', duration: duration})
+      break
+    case "noicon":// 失败
+      wx.showToast({ title: msg, icon: "none", duration: duration })
+      break
+    case "loading":// 正在加载
+      wx.showToast({title: msg, icon: "loading", duration: duration})
+      break
+  }
+}
+
+
 export default {
   isMobile,
   isWeChat,
@@ -378,5 +399,6 @@ export default {
   loginOut,
   getViewPort,
   getDocumentPort,
-  Fixed
+  Fixed,
+  toast
 }

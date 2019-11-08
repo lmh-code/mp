@@ -18,12 +18,12 @@
 
     onShow() {
       // 检查用户是否已经登录
-      // let loginInfo = localStorage.get('loginInfo')
-      // if (!loginInfo) {
-      //   mpvue.navigateTo({
-      //     url: '/pages/Login/main'
-      //   })
-      // }
+      let loginInfo = localStorage.get('loginInfo')
+      if (!loginInfo) {
+        mpvue.redirectTo({
+          url: '/pages/Login/main'
+        })
+      }
     },
 
     created() {
