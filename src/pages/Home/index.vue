@@ -23,6 +23,10 @@
         mpvue.redirectTo({
           url: '/pages/Login/main'
         })
+      } else if (!loginInfo.StoreNo) {
+        mpvue.redirectTo({
+          url: '/pages/StorePicker/main'
+        })
       }
     },
 

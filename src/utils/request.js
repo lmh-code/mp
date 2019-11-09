@@ -4,12 +4,10 @@ import utils from './utils'
 var _URL = config.oldLoginUrl
 var newUrl = config.loginUrl
 
-var AuthorizationBasic = 'Basic d2ViOmQ4YmZjMzQwMWE3NTg5ZTc4NGIwNmJkZmdhMmFkMWM0ZQ=='
-
 // 当前请求地址，防止短时间内重复请求
 var requstMap = {}
 
-function Request (options) {
+function Request(options) {
   if (options.showLoading) {
     wx.showLoading()
   }
@@ -39,7 +37,10 @@ function Request (options) {
   }
 
   if (loginInfo.StoreSysNo && loginInfo.StoreNo) {
-    header['X-Store'] = JSON.stringify({storeSysNo: loginInfo.StoreSysNo, storeNo: loginInfo.StoreNo})
+    header['X-Store'] = JSON.stringify({
+      storeSysNo: loginInfo.StoreSysNo,
+      storeNo: loginInfo.StoreNo
+    })
   }
 
   var contentType = options.contentType || 'application/x-www-form-urlencoded;charset=utf-8'
@@ -100,28 +101,28 @@ function Request (options) {
       }
 
       if (statusCode === 404) {
-        utils.toast('请求资源不存在！', 'noicon')
+        utils.toast('请求资源不存在！', 'none')
         return
       }
 
       if (res.code !== 0 && res.code !== 1 && res.code) {
-        utils.toast(res.msg, "noicon", 5000)
+        utils.toast(res.msg, "none", 5000)
         options.fail && options.fail(res)
         return
       }
 
       if (statusCode === 500) {
-        utils.toast('抱歉，服务器出错了。', 'noicon')
+        utils.toast('抱歉，服务器出错了。', 'none')
         return
       }
       if (res.code === 500) {
-        utils.toast('抱歉，服务器出错了。', 'noicon')
+        utils.toast('抱歉，服务器出错了。', 'none')
         return
       }
       if (statusCode === 200) {
         options.success && options.success(res)
       } else {
-        utils.toast('抱歉，服务器出错了。Code：' + statusCode, 'noicon')
+        utils.toast('抱歉，服务器出错了。Code：' + statusCode, 'none')
       }
     },
     fail: function (err) {
@@ -137,7 +138,7 @@ function Request (options) {
   })
 }
 
-function WxLogin (success, fail) {
+const WxLogin = (success, fail) => {
   console.log('login')
   wx.authorize({
     scope: 'scope.userInfo',
@@ -171,7 +172,7 @@ function WxLogin (success, fail) {
   })
 }
 
-function RequestLogin (code, encryptedData, iv, success, fail) {
+const RequestLogin = (code, encryptedData, iv, success, fail) => {
   console.log('request')
   post({
     url: _URL.token,
@@ -201,7 +202,7 @@ function RequestLogin (code, encryptedData, iv, success, fail) {
   })
 }
 
-function RefreshToken () {
+const RefreshToken = () => {
   var loginInfo = wx.getStorageSync('loginInfo')
   if (loginInfo && loginInfo.refresh_token) {
     post({
@@ -211,7 +212,7 @@ function RefreshToken () {
         refresh_token: loginInfo.refresh_token
       },
       header: {
-        Authorization: AuthorizationBasic
+        Authorization: config.AuthorizationBasic
       },
       success: function (res) {
         if (res.token_type && res.access_token && res.refresh_token) {
@@ -229,13 +230,13 @@ function RefreshToken () {
   }
 }
 
-function get (options) {
+const get = (options) => {
   options = options || {}
   options.method = 'GET'
   Request(options)
 }
 
-function post (options) {
+const post = (options) => {
   options = options || {}
   options.method = 'POST'
   Request(options)
@@ -245,6 +246,6 @@ export default {
   Request: Request,
   get: get,
   post: post,
-  AuthorizationBasic: AuthorizationBasic,
-  RefreshToken: RefreshToken
+  RefreshToken: RefreshToken,
+  WxLogin: WxLogin
 }
