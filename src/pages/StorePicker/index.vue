@@ -4,7 +4,7 @@
       <input class="input-wrap" type="text" placeholder="输入门店名称或者编码" v-model.trim="searchVal" />
       <div class="search-btn" @click="doSearchHandel">搜索</div>
     </div>
-    <div class="select-store-wrap">已选门店：{{storeName||'--'}}</div>
+    <div class="select-store-wrap">已选门店：{{storeNo}}-{{storeName}}</div>
     <div class="content-wrap">
       <div class="city-list-wrap">
         <div v-for="item in cityList" :key="item.cityId" class="city-item"
