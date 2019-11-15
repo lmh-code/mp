@@ -30,11 +30,16 @@ const loginUrl = {
   token: `${basicUrl}/authorization/login` // 登录
 }
 
+const storePickerUrl = {
+  storeList: `${basicUrl}foundation/store/userCityStoreTreeList`
+}
+
 export default {
   version,
   basicUrl,
   oldBasicUrl,
   loginUrl,
   oldLoginUrl,
-  AuthorizationBasic
+  AuthorizationBasic,
+  storePickerUrl
 }

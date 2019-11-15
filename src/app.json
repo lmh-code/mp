@@ -1,9 +1,11 @@
 {
   "pages": [
-    "pages/Login/main",
     "pages/Home/main",
     "pages/counter/main",
-    "pages/My/main"
+    "pages/My/main",
+    "pages/Login/main",
+    "pages/StorePicker/main"
+
   ],
   "window": {
     "backgroundTextStyle": "light",
