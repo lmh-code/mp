@@ -35,3 +35,12 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+# server
+> Mpvue project 的服务端代码
+## Build Setup
+```
+ npm install 安装依赖
+ npm start 运行项目
+```
