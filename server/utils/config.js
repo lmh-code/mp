@@ -18,8 +18,13 @@ const loginUrl = {
   token: `${basicUrl}/authorization/login` // 登录
 }
 
+const storePickerUrl = {
+  storeList: `${basicUrl}/foundation/store/userCityStoreTreeList`
+}
+
 module.exports = {
   oldBasicUrl: oldBasicUrl,
   basicUrl: basicUrl,
-  loginUrl: loginUrl
+  loginUrl: loginUrl,
+  storePickerUrl: storePickerUrl
 }

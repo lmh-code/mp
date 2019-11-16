@@ -31,7 +31,8 @@ const loginUrl = {
 }
 
 const storePickerUrl = {
-  storeList: `${basicUrl}foundation/store/userCityStoreTreeList`
+  user: `${basicUrl}/user`,
+  storeList: `${basicUrl}/foundation/store/userCityStoreTreeList`
 }
 
 export default {

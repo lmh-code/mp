@@ -43,7 +43,7 @@ function Request(options) {
     })
   }
 
-  var contentType = options.contentType || 'application/x-www-form-urlencoded;charset=utf-8'
+  var contentType = options.contentType || 'application/json;charset=UTF-8'
   header['Content-Type'] = header['Content-Type'] || contentType
   header['version'] = config.version
   header['source'] = 4

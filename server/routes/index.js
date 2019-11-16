@@ -4,22 +4,6 @@ var config = require('../utils/config')
 var loginUrl = config.loginUrl
 var router = express.Router()
 
-/* GET home page. */
-router.get('/user', function(req, res, next) {
-  var questions = [
-    {
-      data: 213,
-      num: 444,
-      age: 12
-    },
-    {
-      data: 456,
-      num: 678,
-      age: 13
-    }
-  ]
-  res.json(questions)
-})
 /**
  * @description: 登录接口
  * @param {type} 传递Header和接口参数
