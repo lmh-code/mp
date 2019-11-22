@@ -15,11 +15,11 @@ router.post('/authorization/login', function (req, res, next) {
     method: "POST",
     headers: req.headers,
     form: req.body
-  }, function (e, r, body) {
-    if (!e && r.statusCode === 200) {
-      res.json(JSON.parse(body))
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      res.json(response.statusCode, JSON.parse(body))
     } else {
-      console.log("登录：", e)
+      res.json(response.statusCode, JSON.parse(response.body))
     }
   })
 })

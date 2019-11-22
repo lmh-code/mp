@@ -6,3 +6,11 @@ App.mpType = 'app'
 Vue.prototype.$http = request
 const app = new Vue(App)
 app.$mount()
+// "subPackages": [
+//   {
+//     "root": "pages/ShelvesMgt/",
+//     "pages": [
+//       "main"
+//     ]
+//   }
+// ],

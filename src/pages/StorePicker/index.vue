@@ -54,7 +54,6 @@
         this.storeName = loginInfo.StoreName || ''
       },
       getTreeData() {
-        console.log("我来了 获取门店的")
         let _this = this
         this.$http.post({
           showLoading: true,

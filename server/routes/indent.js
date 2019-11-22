@@ -1,28 +1,18 @@
 var express = require('express')
 var request = require('request')
 var config = require('../utils/config')
-var storePickerUrl = config.storePickerUrl
+var loginUrl = config.loginUrl
 var router = express.Router()
 
-/* GET home page. */
-router.get('/user', function (req, res, next) {
-  var questions = [{
-    data: 213,
-    num: 444,
-    age: 12
-  }]
-  res.json(questions)
-})
-
 /**
- * @description: 获取门店列表
+ * @description: 获取货架列表
  * @param {type} 传递Header和接口参数
- * @return: 门店信息
+ * @return: 用户基本信息
  */
-router.post('/store/userCityStoreTreeList', function (req, res, next) {
-  request({
-    url: storePickerUrl.storeList,
-    method: 'POST',
+router.post('/shelf/list', function (req, res, next) {
+  request.post({
+    url: loginUrl.token,
+    method: "POST",
     headers: req.headers,
     body: JSON.stringify(req.body)
   }, function (err, response, body) {

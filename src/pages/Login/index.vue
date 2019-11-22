@@ -46,6 +46,7 @@
         let _this = this
         this.$http.post({
           showLoading: true,
+          contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
           url: loginUrl.token,
           data: {
             username: _this.userName,
@@ -57,6 +58,7 @@
             Authorization: config.AuthorizationBasic
           },
           success: function (res) {
+            if (!res['access_token']) return
             let loginInfo = {}
             loginInfo.Operator = res['user:name']
             loginInfo.UserNO = res['user:name']

@@ -7,6 +7,14 @@
     "pages/StorePicker/main"
 
   ],
+  "subPackages": [
+    {
+      "root": "pages/ShelvesMgt/",
+      "pages": [
+        "main"
+      ]
+    }
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",

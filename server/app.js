@@ -6,6 +6,9 @@ var logger = require('morgan')
 var ejs = require('ejs')
 var indexRouter = require('./routes/index')
 var storeRouter = require('./routes/store')
+var indentRouter = require('./routes/indent')
+
+var url = require('url')
 
 var app = express()
 
@@ -46,11 +49,13 @@ app.use(express.static(path.join(__dirname, 'public')))
  */
 app.use('/', indexRouter)
 app.use('/foundation', storeRouter)
+app.use('/indent', indentRouter)
 
 /**
  * @description:  catch 404 and forward to error handler
  */
 app.use(function (req, res, next) {
+  let longPath = req.url
   next(createError(404))
 })
 
