@@ -23,10 +23,9 @@
 </template>
 
 <script>
-  import config from '@/utils/config'
+  import storePickerUrl from '@/Api/store'
   import utils from '@/utils/utils'
   import localStorage from '@/utils/localStorage'
-  let storePickerUrl = config.storePickerUrl
   export default {
     data() {
       return {

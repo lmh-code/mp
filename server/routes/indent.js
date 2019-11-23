@@ -1,7 +1,6 @@
 var express = require('express')
 var request = require('request')
-var config = require('../utils/config')
-var loginUrl = config.loginUrl
+var indentUrl = require('../api/indent.js').indentUrl
 var router = express.Router()
 
 /**
@@ -11,7 +10,7 @@ var router = express.Router()
  */
 router.post('/shelf/list', function (req, res, next) {
   request.post({
-    url: loginUrl.token,
+    url: indentUrl.shelvesList,
     method: "POST",
     headers: req.headers,
     body: JSON.stringify(req.body)

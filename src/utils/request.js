@@ -70,6 +70,7 @@ function Request(options) {
     dataType: dataType,
     responseType: responseType,
     success: function (result) {
+      console.log("result:", result)
       options.showLoading && wx.hideLoading()
       var res = result.data
       var statusCode = result.statusCode
@@ -93,8 +94,8 @@ function Request(options) {
             icon: 'none'
           })
         } else {
-          wx.redirectTo({
-            url: '/page/login/login'
+          mpvue.redirectTo({
+            url: '/pages/Login/main'
           })
         }
         return

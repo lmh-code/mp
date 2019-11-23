@@ -1,7 +1,6 @@
 var express = require('express')
 var request = require('request')
-var config = require('../utils/config')
-var storePickerUrl = config.storePickerUrl
+var storeUrl = require('../api/store.js').storeUrl
 var router = express.Router()
 
 /* GET home page. */
@@ -21,7 +20,7 @@ router.get('/user', function (req, res, next) {
  */
 router.post('/store/userCityStoreTreeList', function (req, res, next) {
   request({
-    url: storePickerUrl.storeList,
+    url: storeUrl.storeList,
     method: 'POST',
     headers: req.headers,
     body: JSON.stringify(req.body)

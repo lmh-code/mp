@@ -3,7 +3,7 @@
  * @version:
  * @Author: liuminghao@benlai.com
  * @Date: 2019-08-22 16:49:55
- * @LastEditTime: 2019-11-09 21:20:59
+ * @LastEditTime: 2019-11-23 11:11:12
  */
 import localStorage from './localStorage'
 /**
@@ -378,7 +378,6 @@ const toast = (msg, types, duration) => {
       wx.showToast({
         title: msg,
         icon: "fail",
-        image: '/image/toast_fail.png',
         duration: duration
       })
       break
