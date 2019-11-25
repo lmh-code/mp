@@ -23,4 +23,76 @@ router.post('/shelf/list', function (req, res, next) {
   })
 })
 
+/**
+ * @description: 货架配置
+ */
+router.post('/inventory/inventoryCityConfig', function (req, res, next) {
+  request.post({
+    url: indentUrl.inventoryCityConfig,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      res.json(response.statusCode, JSON.parse(body))
+    } else {
+      res.json(response.statusCode, JSON.parse(response.body))
+    }
+  })
+})
+
+/**
+ * @description: 新增货架
+ */
+router.post('/shelf/save', function (req, res, next) {
+  request.post({
+    url: indentUrl.saveSgelf,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      res.json(response.statusCode, JSON.parse(body))
+    } else {
+      res.json(response.statusCode, JSON.parse(response.body))
+    }
+  })
+})
+
+/**
+ * @description: 编辑货架
+ */
+router.post('/inventory/setCarryShelfGoods', function (req, res, next) {
+  request.post({
+    url: indentUrl.setCarryShelfGoods,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      res.json(response.statusCode, JSON.parse(body))
+    } else {
+      res.json(response.statusCode, JSON.parse(response.body))
+    }
+  })
+})
+
+/**
+ * @description: 删除货架
+ */
+router.post('/shelf/delete/:id', function (req, res, next) {
+  request.post({
+    url: indentUrl.shelfDelete + '/' + req.params.id,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      res.json(response.statusCode, JSON.parse(body))
+    } else {
+      res.json(response.statusCode, JSON.parse(response.body))
+    }
+  })
+})
+
 module.exports = router

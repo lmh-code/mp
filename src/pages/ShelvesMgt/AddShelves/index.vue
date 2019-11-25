@@ -7,7 +7,7 @@
           <span>货架名称:</span>
           <input type="text" :value="defaultName" @input="inputChange" :disabled="edit">
         </div>
-        <div class="check-wrap" @click="selectHandel">
+        <div class="check-wrap" @click="selectHandel(disabled)">
           <image class="check-icon" :src="selected ? '/static/images/icon_selected.png' : '/static/images/icon_noselected.png'" mode="widthFix" lazy-load="false"></image>
           <span>盘点时带出货架商品</span> 
         </div>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  import utils from '@/utils/utils'
   export default {
     props: {
       showModel: {
@@ -39,6 +40,10 @@
       defaultName: {
         type: String,
         default: ''
+      },
+      disabled: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {
@@ -48,7 +53,11 @@
       confirmHandel () {
         this.$emit("confirmHandel", {defaultName: this.defaultName, selected: this.selected})
       },
-      selectHandel () {
+      selectHandel (_disabled) {
+        if (!_disabled) {
+          utils.toast("已设置不可编辑", "none")
+          return
+        }
         // this.$emit("selectHandel")
         this.selected = !this.selected
       },

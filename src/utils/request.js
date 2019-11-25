@@ -7,6 +7,30 @@ var newUrl = config.loginUrl
 // 当前请求地址，防止短时间内重复请求
 var requstMap = {}
 
+/**
+ * [processParams 格式化参数]
+ * @param  {[type]} paramObj [description]
+ * @return {[type]}          [description]
+ */
+function processParams (paramObj) {
+  let arrayBool = Object.prototype.toString.call(paramObj) === '[object Array]'
+  if (arrayBool) {
+    return paramObj 
+  } else {
+    let params = {}
+    for (let key in paramObj) {
+      let item = paramObj[key]
+      if (key.indexOf('_options') > -1) {
+        continue
+      }
+      if (typeof item !== 'undefined' && typeof item !== 'function' && item !== null) {
+        params[key] = item
+      }
+    }
+    return params 
+  }
+}
+
 function Request(options) {
   if (options.showLoading) {
     wx.showLoading()
@@ -15,7 +39,7 @@ function Request(options) {
   var url = options.url
   if (!url) throw new Error('request url is not defined')
 
-  var data = options.data || {}
+  var data = processParams(options.data) || {}
   var method = options.method || 'GET'
   method = method.toUpperCase()
 
@@ -27,11 +51,8 @@ function Request(options) {
   if (header['Authorization']) {
     Authorization = header['Authorization']
   } else if (loginInfo && loginInfo.token_type && loginInfo.access_token) {
-    let javaApiList = ['srm', 'foundation', 'product', 'newretail-order', 'basal', 'member', 'report', 'intelligence', 'newretail-receipt-server', 'indent', 'wechat', 'newretail-shop']
-    let token = javaApiList.indexOf(url.split('/')[3].toString().trim()) === -1 ? loginInfo.net_token : loginInfo.access_token
-    Authorization = loginInfo.token_type + ' ' + token
+    Authorization = loginInfo.token_type + ' ' + loginInfo.access_token
   }
-
   if (Authorization) {
     header['Authorization'] = Authorization
   }
@@ -70,7 +91,6 @@ function Request(options) {
     dataType: dataType,
     responseType: responseType,
     success: function (result) {
-      console.log("result:", result)
       options.showLoading && wx.hideLoading()
       var res = result.data
       var statusCode = result.statusCode
@@ -140,7 +160,6 @@ function Request(options) {
 }
 
 const WxLogin = (success, fail) => {
-  console.log('login')
   wx.authorize({
     scope: 'scope.userInfo',
     success: function () {

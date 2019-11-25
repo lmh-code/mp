@@ -6,11 +6,11 @@
           <div class="left fw">
             {{item.shelfName}}
           </div>
-          <div class="right" @click="doDelHandel">
-            <image class="del-icon" src="/static/images/loss-delete.png" mode="widthFix" lazy-load="false"></image>
+          <div class="right" @click="doDelHandel(item.id)">
+            <image class="del-icon" src="/static/images/loss-delete.png" mode="widthFix" lazy-load="false"></image><span style="font-size: 30rpx;color: #555555;">删除</span>
           </div>
           <div class="right" @click="showEditDialog(item)">
-            <image class="edit-icon" src="/static/images/edit.png" mode="widthFix" lazy-load="false"></image>
+            <image class="edit-icon" src="/static/images/edit.png" mode="widthFix" lazy-load="false"></image><span style="font-size: 30rpx;color: #555555;">编辑</span>
           </div>
         </div>
         <div class="item-com item-second">
@@ -41,6 +41,7 @@
     <add-shelves-view
       :showModel="showAddDialog"
       :selected="selected"
+      :disabled="modified"
       :defaultName="defaultName"
       :edit="edit"
       @cancelHandel="backHandel"
@@ -74,10 +75,14 @@
         // 新增货架
         showAddDialog: false,
         selected: false,
+        modified: false, // 是否可编辑
         defaultName: '',
         shelfNo: '',
         shelfId: '',
-        edit: false
+        edit: false,
+
+        // 删除用
+        delId: ''
       }
     },
     onShow() {
@@ -109,42 +114,102 @@
           }
         })
       },
-      showAddDialogHandel () {
-        this.showAddDialog = true
-        this.edit = false
-        // 根据接口获取selected
-        this.selected = true
-        this.defaultName = ''
-        this.shelfNo = ''
-        this.shelfId = ''
+      async inventoryCityConfig(_shelfNo) {
+        let _this = this
+        let _params = {
+          storeNo: this.storeNo,
+          shelfNo: _shelfNo || null
+        }
+        return new Promise((resolve, reject) => {
+          _this.$http.post({
+            showLoading: true,
+            url: shelvesUrl.inventoryCityConfig,
+            data: {..._params},
+            success: function (res) {
+              if (res.code === 0) {
+                resolve(res.data)
+              } else {
+                reject(res.msg)
+              }
+            }
+          })
+        })
+      },
+      async showAddDialogHandel () {
+        // 获取货架配置
+        await this.inventoryCityConfig().then(res => {
+          this.showAddDialog = true
+          this.edit = false
+          this.defaultName = ''
+          this.shelfNo = ''
+          this.shelfId = ''
+          this.selected = res.selected
+          this.modified = res.modified
+        }).catch(err => { utils.toast(err, "none") })
       },
       backHandel () {
         this.showAddDialog = false
       },
       addShelvesHandel (e) {
+        let _this = this
         let _params = {
-          selected: e.selected,
+          storeNo: this.storeNo,
+          carryShelfGoods: e.selected ? 1 : 0,
           shelfName: e.defaultName
         }
         if (this.edit) {
+          if (!this.modified) {
+            this.showAddDialog = false
+            return
+          }
           _params.shelfNo = this.shelfNo
           _params.id = this.shelfId
           console.log("编辑_params:", _params)
+          this.$http.post({
+            showLoading: true,
+            url: shelvesUrl.setCarryShelfGoods,
+            data: {..._params},
+            success: function (res) {
+              if (res.code === 0) {
+                _this.showAddDialog = false
+                utils.toast("编辑成功", "success")
+              } else {
+                utils.toast(res.msg, "none")
+              }
+            }
+          })
         } else {
-          console.log("新增_params:", _params)
+          _params.shelfNo = e.defaultName
+          this.$http.post({
+            showLoading: true,
+            url: shelvesUrl.saveShelf,
+            data: {..._params},
+            success: function (res) {
+              if (res.code === 0) {
+                _this.getShelves()
+                _this.showAddDialog = false
+                utils.toast("新增成功", "success")
+              } else {
+                utils.toast(res.msg, "none")
+              }
+            }
+          })
         }
       },
-      showEditDialog (_row) {
-        console.log("_row:", _row)
-        this.showAddDialog = true
-        this.edit = true
-        this.defaultName = _row.storeName
-        this.shelfNo = _row.shelfNo
-        this.shelfId = _row.id
-        // 根据接口获取
-        this.selected = _row.selected
+      async showEditDialog (_row) {
+        // 获取货架配置
+        await this.inventoryCityConfig(_row.shelfNo).then(res => {
+          this.showAddDialog = true
+          this.edit = true
+          this.defaultName = _row.storeName
+          this.shelfNo = _row.shelfNo
+          this.shelfId = _row.id
+          this.selected = res.selected
+          this.modified = res.modified
+        }).catch(err => { utils.toast(err, "none") })
       },
-      doDelHandel () {
+      doDelHandel (_id) {
+        this.delId = _id
         this.showModel = true
         this.showTitle = true
         this.title = '温馨提示'
@@ -155,7 +220,23 @@
         this.showModel = false
       },
       confirmHandel () {
-        console.log("confirmHandel")
+        let _this = this
+        let id = this.delId
+        this.$http.post({
+          showLoading: true,
+          url: `${shelvesUrl.shelfDelete}/${id}`,
+          success: function (res) {
+            if (res.code === 0) {
+              _this.showModel = false
+              _this.shelvesList = _this.shelvesList.filter(item => {
+                return item.id !== id
+              })
+              utils.toast("删除成功", "success")
+            } else {
+              utils.toast(res.msg, "none")
+            }
+          }
+        })
       }
     }
   }
@@ -167,7 +248,7 @@
     background-color: #f2f2f2;
   }
   .shelves-list-wrap {
-    padding: 20rpx 40rpx 100rpx 20rpx;
+    padding: 20rpx 20rpx 100rpx;
     box-sizing: border-box;
   }
   .list-item-wrap {
