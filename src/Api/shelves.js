@@ -10,5 +10,7 @@ export default {
   // 编辑货架
   setCarryShelfGoods: `${basicUrl}/indent/inventory/setCarryShelfGoods`,
   // 删除货架
-  shelfDelete: `${basicUrl}/indent/shelf/delete`
+  shelfDelete: `${basicUrl}/indent/shelf/delete`,
+  // 获取货架中的商品
+  shelfGoodsList: `${basicUrl}/indent/shelfGoods/list`
 }

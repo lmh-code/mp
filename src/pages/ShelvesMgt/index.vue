@@ -7,10 +7,12 @@
             {{item.shelfName}}
           </div>
           <div class="right" @click="doDelHandel(item.id)">
-            <image class="del-icon" src="/static/images/loss-delete.png" mode="widthFix" lazy-load="false"></image><span style="font-size: 30rpx;color: #555555;">删除</span>
+            <image class="del-icon" src="/static/images/loss-delete.png" mode="widthFix" lazy-load="false"></image><span
+              style="font-size: 30rpx;color: #555555;">删除</span>
           </div>
           <div class="right" @click="showEditDialog(item)">
-            <image class="edit-icon" src="/static/images/edit.png" mode="widthFix" lazy-load="false"></image><span style="font-size: 30rpx;color: #555555;">编辑</span>
+            <image class="edit-icon" src="/static/images/edit.png" mode="widthFix" lazy-load="false"></image><span
+              style="font-size: 30rpx;color: #555555;">编辑</span>
           </div>
         </div>
         <div class="item-com item-second" @click="goShelvesGoodsPage(item)">
@@ -24,28 +26,13 @@
         </div>
       </div>
     </div>
-    <footer-view 
-      showRight="true" 
-      rightTxt="新增货架" 
-      @rightBtnHandel="showAddDialogHandel">
+    <footer-view showRight="true" rightTxt="新增货架" @rightBtnHandel="showAddDialogHandel">
     </footer-view>
-    <confirm-view 
-      :showModel="showModel" 
-      :showTitle="showTitle" 
-      :title="title" 
-      :showTip="showTip"
-      :tipMsg="tipMsg"
-      @cancelHandel="cancelHandel" 
-      @confirmHandel="confirmHandel">
+    <confirm-view :showModel="showModel" :showTitle="showTitle" :title="title" :showTip="showTip" :tipMsg="tipMsg"
+      @cancelHandel="cancelHandel" @confirmHandel="confirmHandel">
     </confirm-view>
-    <add-shelves-view
-      :showModel="showAddDialog"
-      :selected="selected"
-      :disabled="modified"
-      :defaultName="defaultName"
-      :edit="edit"
-      @cancelHandel="backHandel"
-      @confirmHandel="addShelvesHandel">
+    <add-shelves-view :showModel="showAddDialog" :selected="selected" :disabled="modified" :defaultName="defaultName"
+      :edit="edit" @cancelHandel="backHandel" @confirmHandel="addShelvesHandel">
     </add-shelves-view>
   </div>
 </template>
@@ -61,7 +48,7 @@
     data() {
       return {
         pageNum: 1,
-        pageSize: 50,
+        pageSize: -1,
         storeNo: Storage.get('loginInfo').StoreNo,
         shelvesList: [],
 
@@ -104,7 +91,9 @@
         this.$http.post({
           showLoading: true,
           url: shelvesUrl.shelvesList,
-          data: {..._params},
+          data: {
+            ..._params
+          },
           success: function (res) {
             if (res.code === 0) {
               _this.shelvesList = res.data && res.data.result && res.data.result.length ? res.data.result : []
@@ -124,7 +113,9 @@
           _this.$http.post({
             showLoading: true,
             url: shelvesUrl.inventoryCityConfig,
-            data: {..._params},
+            data: {
+              ..._params
+            },
             success: function (res) {
               if (res.code === 0) {
                 resolve(res.data)
@@ -135,7 +126,7 @@
           })
         })
       },
-      async showAddDialogHandel () {
+      async showAddDialogHandel() {
         // 获取货架配置
         await this.inventoryCityConfig().then(res => {
           this.showAddDialog = true
@@ -145,12 +136,14 @@
           this.shelfId = ''
           this.selected = res.selected
           this.modified = res.modified
-        }).catch(err => { utils.toast(err, "none") })
+        }).catch(err => {
+          utils.toast(err, "none")
+        })
       },
-      backHandel () {
+      backHandel() {
         this.showAddDialog = false
       },
-      addShelvesHandel (e) {
+      addShelvesHandel(e) {
         let _this = this
         let _params = {
           storeNo: this.storeNo,
@@ -167,7 +160,9 @@
           this.$http.post({
             showLoading: true,
             url: shelvesUrl.setCarryShelfGoods,
-            data: {..._params},
+            data: {
+              ..._params
+            },
             success: function (res) {
               if (res.code === 0) {
                 _this.showAddDialog = false
@@ -182,7 +177,9 @@
           this.$http.post({
             showLoading: true,
             url: shelvesUrl.saveShelf,
-            data: {..._params},
+            data: {
+              ..._params
+            },
             success: function (res) {
               if (res.code === 0) {
                 _this.getShelves()
@@ -195,7 +192,7 @@
           })
         }
       },
-      async showEditDialog (_row) {
+      async showEditDialog(_row) {
         // 获取货架配置
         await this.inventoryCityConfig(_row.shelfNo).then(res => {
           this.showAddDialog = true
@@ -205,9 +202,11 @@
           this.shelfId = _row.id
           this.selected = res.selected
           this.modified = res.modified
-        }).catch(err => { utils.toast(err, "none") })
+        }).catch(err => {
+          utils.toast(err, "none")
+        })
       },
-      doDelHandel (_id) {
+      doDelHandel(_id) {
         this.delId = _id
         this.showModel = true
         this.showTitle = true
@@ -215,10 +214,10 @@
         this.showTip = true
         this.tipMsg = '删除后货架里的商品也会删除，请确认是否删除此货架？'
       },
-      cancelHandel () {
+      cancelHandel() {
         this.showModel = false
       },
-      confirmHandel () {
+      confirmHandel() {
         let _this = this
         let id = this.delId
         this.$http.post({
@@ -237,14 +236,15 @@
           }
         })
       },
-      goShelvesGoodsPage (_row) {
+      goShelvesGoodsPage(_row) {
         mpvue.navigateTo({
-          url: `/pages/ShelvesMgt/ShelvesGoods/main?shelfName=${_row.shelfName}`
+          url: `/pages/ShelvesMgt/ShelvesGoods/main?shelfName=${_row.shelfName}&shelfNo=${_row.shelfNo}`
         })
       }
-    
+
     }
   }
+
 </script>
 <style scoped>
   .page-container {
@@ -252,10 +252,12 @@
     min-height: 100vh;
     background-color: #f2f2f2;
   }
+
   .shelves-list-wrap {
     padding: 20rpx 20rpx 100rpx;
     box-sizing: border-box;
   }
+
   .list-item-wrap {
     width: 100%;
     background-color: #fff;
@@ -264,6 +266,7 @@
     padding: 20rpx;
     box-sizing: border-box;
   }
+
   .item-com {
     display: flex;
     flex-wrap: nowrap;
@@ -271,15 +274,18 @@
     justify-content: space-between;
     align-items: center;
   }
+
   .left {
     flex: 1;
     font-size: 30rpx;
     color: #555555;
     line-height: 50rpx;
   }
+
   .fw {
     font-weight: bold;
   }
+
   .right {
     width: 100rpx;
     padding: 10rpx 0;
@@ -287,12 +293,16 @@
     align-items: center;
     justify-content: flex-end;
   }
-  .del-icon, .edit-icon {
+
+  .del-icon,
+  .edit-icon {
     width: 32rpx;
     height: 32rpx;
   }
+
   .next-icon {
     width: 12rpx;
     height: 28rpx;
   }
+
 </style>
