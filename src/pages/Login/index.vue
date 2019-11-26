@@ -5,12 +5,12 @@
     <div class="login-wrap">
       <div class="login-input-wrap">
         <image class="input-icon" src="/static/images/icon_username.png" mode="widthFix" lazy-load="false"></image>
-        <input class="login-input" placeholder="请输入用户名" v-model.trim="userName" @keyup.enter="doLoginHandel" />
+        <input class="login-input" placeholder="请输入用户名" v-model.trim="userName" @keyup.enter.native="doLoginHandel" />
       </div>
       <div class="login-input-wrap">
         <image class="input-icon" src="/static/images/icon_password.png" mode="widthFix" lazy-load="false"></image>
         <input class="login-input" type="password" placeholder="请输入密码" v-model.trim="password"
-          @keyup.enter="doLoginHandel" />
+          @keyup.enter.native="doLoginHandel" />
       </div>
       <div class="login-btn-wrap" @click="doLoginHandel">
         登录

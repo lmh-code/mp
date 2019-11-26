@@ -13,7 +13,7 @@
             <image class="edit-icon" src="/static/images/edit.png" mode="widthFix" lazy-load="false"></image><span style="font-size: 30rpx;color: #555555;">编辑</span>
           </div>
         </div>
-        <div class="item-com item-second">
+        <div class="item-com item-second" @click="goShelvesGoodsPage(item)">
           <div class="left">
             <div>已绑定商品: {{item.skuCount}}</div>
             <div>创建时间: {{item.createTime}}</div>
@@ -164,7 +164,6 @@
           }
           _params.shelfNo = this.shelfNo
           _params.id = this.shelfId
-          console.log("编辑_params:", _params)
           this.$http.post({
             showLoading: true,
             url: shelvesUrl.setCarryShelfGoods,
@@ -237,7 +236,13 @@
             }
           }
         })
+      },
+      goShelvesGoodsPage (_row) {
+        mpvue.navigateTo({
+          url: `/pages/ShelvesMgt/ShelvesGoods/main?shelfName=${_row.shelfName}`
+        })
       }
+    
     }
   }
 </script>

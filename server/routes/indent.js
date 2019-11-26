@@ -16,9 +16,11 @@ router.post('/shelf/list', function (req, res, next) {
     body: JSON.stringify(req.body)
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
-      res.json(response.statusCode, JSON.parse(body))
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
     } else {
-      res.json(response.statusCode, JSON.parse(response.body))
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
     }
   })
 })
@@ -34,9 +36,11 @@ router.post('/inventory/inventoryCityConfig', function (req, res, next) {
     body: JSON.stringify(req.body)
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
-      res.json(response.statusCode, JSON.parse(body))
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
     } else {
-      res.json(response.statusCode, JSON.parse(response.body))
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
     }
   })
 })
@@ -52,9 +56,11 @@ router.post('/shelf/save', function (req, res, next) {
     body: JSON.stringify(req.body)
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
-      res.json(response.statusCode, JSON.parse(body))
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
     } else {
-      res.json(response.statusCode, JSON.parse(response.body))
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
     }
   })
 })
@@ -70,9 +76,11 @@ router.post('/inventory/setCarryShelfGoods', function (req, res, next) {
     body: JSON.stringify(req.body)
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
-      res.json(response.statusCode, JSON.parse(body))
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
     } else {
-      res.json(response.statusCode, JSON.parse(response.body))
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
     }
   })
 })
@@ -88,9 +96,11 @@ router.post('/shelf/delete/:id', function (req, res, next) {
     body: JSON.stringify(req.body)
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
-      res.json(response.statusCode, JSON.parse(body))
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
     } else {
-      res.json(response.statusCode, JSON.parse(response.body))
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
     }
   })
 })

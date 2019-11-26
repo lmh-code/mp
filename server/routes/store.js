@@ -26,9 +26,11 @@ router.post('/store/userCityStoreTreeList', function (req, res, next) {
     body: JSON.stringify(req.body)
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
-      res.json(response.statusCode, JSON.parse(body))
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
     } else {
-      res.json(response.statusCode, JSON.parse(response.body))
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
     }
   })
 })

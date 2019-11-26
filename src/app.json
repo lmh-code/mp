@@ -5,13 +5,13 @@
     "pages/My/main",
     "pages/Login/main",
     "pages/StorePicker/main"
-
   ],
   "subPackages": [
     {
       "root": "pages/ShelvesMgt/",
       "pages": [
-        "main"
+        "main",
+        "ShelvesGoods/main"
       ]
     }
   ],
