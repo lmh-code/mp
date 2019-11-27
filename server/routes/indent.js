@@ -105,4 +105,45 @@ router.post('/shelf/delete/:id', function (req, res, next) {
   })
 })
 
+/**
+ * @description: 货架中的商品
+ */
+router.post('/shelfGoods/list', function (req, res, next) {
+  request.post({
+    url: indentUrl.goodsList,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
+    } else {
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
+    }
+  })
+})
+
+/**
+ * @description: 删除货架中的商品
+ */
+router.post('/shelfGoods/delete/:id', function (req, res, next) {
+  request.post({
+    url: indentUrl.goodsDelete + '/' + req.params.id,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
+    } else {
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
+    }
+  })
+})
+
+
 module.exports = router

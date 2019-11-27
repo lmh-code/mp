@@ -9,7 +9,11 @@ const indentUrl = {
   // 编辑货架
   setCarryShelfGoods: `${basicUrl}/indent/inventory/setCarryShelfGoods`,
   // 删除货架
-  shelfDelete: `${basicUrl}/indent/shelf/delete`
+  shelfDelete: `${basicUrl}/indent/shelf/delete`,
+  // 货架中的商品
+  goodsList: `${basicUrl}/indent/shelfGoods/list`,
+  // 删除货架中的商品
+  goodsDelete: `${basicUrl}/indent/shelfGoods/delete`
 }
 module.exports = {
   indentUrl

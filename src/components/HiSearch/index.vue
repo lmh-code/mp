@@ -11,6 +11,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 999;
   }
 
   .scan-wrap {
@@ -64,24 +65,37 @@
 </style>
 <template>
   <div class="page-container">
-    <div class="scan-wrap">
+    <div class="scan-wrap" v-if="showScan">
       <image class="scan-icon" src="/static/images/scan_photo.png" mode="widthFix" lazy-load="false"></image>
     </div>
 
     <div class="row-com">
       <div style="position: relative;">
         <image class="search-icon" src="/static/images/search.png" mode="widthFix" lazy-load="false"></image>
-        <input type="text" :disabled="disabled" :placeholder="placeholder" class="input-wrap">
+        <input type="text" v-if="disabled" :disabled="disabled" :placeholder="placeholder" class="input-wrap" @click="redirectPage(pagePath)">
+        <input type="text" v-else :placeholder="placeholder" class="input-wrap">
       </div>
     </div>
-    <div class="search-btn">搜索</div>
+    <div class="search-btn" v-if="showSearch">搜索</div>
   </div>
 </template>
 <script>
   export default {
     props: {
+      showScan: {
+        type: Boolean,
+        default: false
+      },
+      showSearch: {
+        type: Boolean,
+        default: true
+      },
       disabled: {
         type: Boolean,
+        default: false
+      },
+      pagePath: {
+        type: String,
         default: ''
       },
       placeholder: {
@@ -90,7 +104,11 @@
       }
     },
     methods: {
-
+      redirectPage (_path) {
+        console.log("_path:", _path)
+        if (!_path) return
+        mpvue.navigateTo({url: _path})
+      }
     }
   }
 

@@ -73,6 +73,7 @@
       }
     },
     onShow() {
+      this.storeNo = Storage.get('loginInfo').StoreNo
       this.getShelves()
     },
     components: {
@@ -166,7 +167,7 @@
             success: function (res) {
               if (res.code === 0) {
                 _this.showAddDialog = false
-                utils.toast("编辑成功", "success")
+                utils.toast("编辑成功", "none")
               } else {
                 utils.toast(res.msg, "none")
               }
@@ -184,7 +185,7 @@
               if (res.code === 0) {
                 _this.getShelves()
                 _this.showAddDialog = false
-                utils.toast("新增成功", "success")
+                utils.toast("新增成功", "none")
               } else {
                 utils.toast(res.msg, "none")
               }
@@ -229,7 +230,7 @@
               _this.shelvesList = _this.shelvesList.filter(item => {
                 return item.id !== id
               })
-              utils.toast("删除成功", "success")
+              utils.toast("删除成功", "none")
             } else {
               utils.toast(res.msg, "none")
             }

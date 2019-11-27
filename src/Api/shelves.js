@@ -12,5 +12,7 @@ export default {
   // 删除货架
   shelfDelete: `${basicUrl}/indent/shelf/delete`,
   // 获取货架中的商品
-  shelfGoodsList: `${basicUrl}/indent/shelfGoods/list`
+  shelfGoodsList: `${basicUrl}/indent/shelfGoods/list`,
+  // 删除货架中的商品
+  goodsDelete: `${basicUrl}/indent/shelfGoods/delete`
 }
