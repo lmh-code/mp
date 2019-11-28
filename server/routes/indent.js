@@ -92,8 +92,7 @@ router.post('/shelf/delete/:id', function (req, res, next) {
   request.post({
     url: indentUrl.shelfDelete + '/' + req.params.id,
     method: "POST",
-    headers: req.headers,
-    body: JSON.stringify(req.body)
+    headers: req.headers
   }, function (err, response, body) {
     if (!err && response.statusCode === 200) {
       let result = body ? JSON.parse(body) : {}
@@ -131,6 +130,25 @@ router.post('/shelfGoods/list', function (req, res, next) {
 router.post('/shelfGoods/delete/:id', function (req, res, next) {
   request.post({
     url: indentUrl.goodsDelete + '/' + req.params.id,
+    method: "POST",
+    headers: req.headers
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
+    } else {
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
+    }
+  })
+})
+
+/**
+ * @description: 查找添加商品搜索接口
+ */
+router.post('/basics/storeGoodsPageList', function (req, res, next) {
+  request.post({
+    url: indentUrl.storeGoodsPageList,
     method: "POST",
     headers: req.headers,
     body: JSON.stringify(req.body)

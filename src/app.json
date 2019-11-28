@@ -11,7 +11,8 @@
       "root": "pages/ShelvesMgt/",
       "pages": [
         "main",
-        "ShelvesGoods/main"
+        "ShelvesGoods/main",
+        "ShelvesGoods/GoodsSearch/main"
       ]
     }
   ],

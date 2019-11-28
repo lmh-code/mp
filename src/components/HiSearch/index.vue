@@ -73,10 +73,10 @@
       <div style="position: relative;">
         <image class="search-icon" src="/static/images/search.png" mode="widthFix" lazy-load="false"></image>
         <input type="text" v-if="disabled" :disabled="disabled" :placeholder="placeholder" class="input-wrap" @click="redirectPage(pagePath)">
-        <input type="text" v-else :placeholder="placeholder" class="input-wrap">
+        <input type="text" v-else :placeholder="placeholder" class="input-wrap" @input="inputHandel">
       </div>
     </div>
-    <div class="search-btn" v-if="showSearch">搜索</div>
+    <div class="search-btn" v-if="showSearch" @click="doSearchHandel">搜索</div>
   </div>
 </template>
 <script>
@@ -103,11 +103,23 @@
         default: ''
       }
     },
+    data () {
+      return {
+        queryStr: ''
+      }
+    },
     methods: {
       redirectPage (_path) {
-        console.log("_path:", _path)
         if (!_path) return
         mpvue.navigateTo({url: _path})
+      },
+
+      inputHandel (e) {
+        this.queryStr = e.target.value
+      },
+
+      doSearchHandel () {
+        this.$emit("doSearchHandel", this.queryStr)
       }
     }
   }

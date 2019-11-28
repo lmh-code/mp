@@ -160,6 +160,7 @@
                 item.isTouchMove = false
                 return item
               })
+              return
             } else {
               utils.toast(res.msg, "none")
             }
