@@ -16,5 +16,9 @@ export default {
   // 删除货架中的商品
   goodsDelete: `${basicUrl}/indent/shelfGoods/delete`,
   // 查找添加商品搜索接口
-  storeGoodsPageList: `${basicUrl}/indent/basics/storeGoodsPageList`
+  storeGoodsPageList: `${basicUrl}/indent/basics/storeGoodsPageList`,
+  // 判断货架中商品是否存在
+  isExist: `${basicUrl}/indent/shelfGoods/isExist`,
+  // 保存货架商品
+  shelfGoodsSave: `${basicUrl}/indent/shelfGoods/save`
 }

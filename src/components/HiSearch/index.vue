@@ -38,7 +38,7 @@
     border-radius: 10rpx;
     padding-left: 60rpx;
     box-sizing: border-box;
-    color: #aaaaaa;
+    color: #666666;
     font-size: 28rpx;
     line-height: 72rpx;
   }
@@ -49,6 +49,15 @@
     position: absolute;
     top: 20rpx;
     left: 20rpx;
+  }
+
+  .loss-close-icon {
+    width: 26rpx;
+    height: 26rpx;
+    position: absolute;
+    top: 24rpx;
+    right: 20rpx;
+    z-index: 9999;
   }
 
   .search-btn {
@@ -72,8 +81,11 @@
     <div class="row-com">
       <div style="position: relative;">
         <image class="search-icon" src="/static/images/search.png" mode="widthFix" lazy-load="false"></image>
-        <input type="text" v-if="disabled" :disabled="disabled" :placeholder="placeholder" class="input-wrap" @click="redirectPage(pagePath)">
-        <input type="text" v-else :placeholder="placeholder" class="input-wrap" @input="inputHandel">
+        <input type="text" v-if="disabled" :disabled="disabled" :placeholder="placeholder" class="input-wrap"
+          @click="redirectPage(pagePath)">
+        <input type="text" v-else :placeholder="placeholder" class="input-wrap" @input="inputHandel" :value="queryStr">
+        <image class="loss-close-icon" src="/static/images/close.png" mode="widthFix" lazy-load="false" v-if="queryStr"
+          @click="clear"></image>
       </div>
     </div>
     <div class="search-btn" v-if="showSearch" @click="doSearchHandel">搜索</div>
@@ -103,22 +115,28 @@
         default: ''
       }
     },
-    data () {
+    data() {
       return {
         queryStr: ''
       }
     },
     methods: {
-      redirectPage (_path) {
+      redirectPage(_path) {
         if (!_path) return
-        mpvue.navigateTo({url: _path})
+        mpvue.navigateTo({
+          url: _path
+        })
       },
 
-      inputHandel (e) {
+      clear() {
+        this.queryStr = ''
+      },
+
+      inputHandel(e) {
         this.queryStr = e.target.value
       },
 
-      doSearchHandel () {
+      doSearchHandel() {
         this.$emit("doSearchHandel", this.queryStr)
       }
     }

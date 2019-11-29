@@ -11,12 +11,14 @@
     padding: 110rpx 20rpx 10rpx 20rpx;
     box-sizing: border-box;
   }
+
   .list-item {
     width: 100%;
     display: flex;
     justify-content: space-between;
     overflow: hidden;
   }
+
   .item-com {
     display: flex;
     flex-wrap: nowrap;
@@ -26,6 +28,7 @@
     color: #555555;
     line-height: 50rpx;
   }
+
   .item-wrap {
     width: 100%;
     background-color: #ffffff;
@@ -33,23 +36,37 @@
     margin-bottom: 20rpx;
     padding: 20rpx;
     box-sizing: border-box;
-    margin-right:0;
+    margin-right: 0;
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
     -webkit-transform: translateX(120rpx);
     transform: translateX(120rpx);
     margin-left: -120rpx;
   }
+
   .name-wrap {
     flex: 1;
     color: #333333;
     font-weight: bold;
   }
+
   .no-wrap {
     flex: 1;
     display: flex;
     justify-content: space-between;
   }
+
+  .tip-txt {
+    font-weight: normal;
+    border: 2rpx solid #FD6400;
+    line-height: 36rpx;
+    font-size: 24rpx;
+    color: #555555;
+    padding: 0 8rpx;
+    border-radius: 8rpx;
+    margin-left: 10rpx;
+  }
+
   .del-wrap {
     background-color: #FD6400;
     width: 120rpx;
@@ -66,19 +83,26 @@
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
   }
+
   .move-active .item-wrap,
   .move-active .del-wrap {
     -webkit-transform: translateX(0);
     transform: translateX(0);
   }
+
 </style>
 <template>
   <div class="page-container">
-    <hi-search-view placeholder="请输入商品名称或编码" disabled="true" showScan="true" pagePath="/pages/ShelvesMgt/ShelvesGoods/GoodsSearch/main"></hi-search-view>
+    <hi-search-view placeholder="请输入商品名称或编码" disabled="true" showScan="true" :pagePath="pagePath"></hi-search-view>
     <div class="goods-list-wrap">
-      <div v-for="(item, index) in goodsList" :key="index" class="list-item" :class="item.isTouchMove ? 'move-active' : ''" @touchstart="touchstart($event)" @touchmove="touchmove($event, index)" >
+      <div v-for="(item, index) in goodsList" :key="index" class="list-item"
+        :class="item.isTouchMove ? 'move-active' : ''" @touchstart="touchstart($event)"
+        @touchmove="touchmove($event, index)">
         <div class="item-wrap">
-          <div class="item-com name-wrap">{{index+1}}. {{item.name}}</div>
+          <div class="item-com name-wrap">
+            {{index+1}}. {{item.name}}
+            <span v-if="item.splitType === 'split'" class="tip-txt">子码</span>
+          </div>
           <div class="item-com no-wrap">
             <span>编码：{{item.goodsNo}}</span>
             <span>条码：{{item.barcode}}</span>
@@ -103,6 +127,7 @@
   export default {
     data() {
       return {
+        pagePath: '',
         storeNo: Storage.get('loginInfo').StoreNo,
         shelfName: '',
         shelfNo: '',
@@ -124,6 +149,7 @@
       let shelfNo = options.shelfNo
       this.shelfName = shelfName
       this.shelfNo = shelfNo
+      this.pagePath = `/pages/ShelvesMgt/ShelvesGoods/GoodsSearch/main?shelfNo=${shelfNo}`
       mpvue.setNavigationBarTitle({
         title: `货架:${shelfName}`
       })
@@ -160,7 +186,6 @@
                 item.isTouchMove = false
                 return item
               })
-              return
             } else {
               utils.toast(res.msg, "none")
             }
@@ -173,13 +198,19 @@
         this.startY = e.touches[0].clientY
       },
 
-      touchmove (e, idx) {
+      touchmove(e, idx) {
         let startX = this.startX // 开始X坐标
         let startY = this.startY // 开始Y坐标
         let touchMoveX = e.touches[0].clientX // 滑动变化坐标
         let touchMoveY = e.touches[0].clientY // 滑动变化坐标
         // 获取滑动角度
-        let calAngle = this.calAngle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY })
+        let calAngle = this.calAngle({
+          X: startX,
+          Y: startY
+        }, {
+          X: touchMoveX,
+          Y: touchMoveY
+        })
         let goodsListArr = [...this.goodsList]
         goodsListArr.forEach((item, index) => {
           item.isTouchMove = false
@@ -200,18 +231,18 @@
       },
 
       /**
-      * 计算滑动角度
-      * @param {Object} start 起点坐标
-      * @param {Object} end 终点坐标
-      */
-      calAngle (start, end) {
+       * 计算滑动角度
+       * @param {Object} start 起点坐标
+       * @param {Object} end 终点坐标
+       */
+      calAngle(start, end) {
         let _X = end.X - start.X
         let _Y = end.Y - start.Y
         // 返回角度 /Math.atan()返回数字的反正切值
         return 360 * Math.atan(_Y / _X) / (2 * Math.PI)
       },
 
-      deleteHandel (_id) {
+      deleteHandel(_id) {
         this.delId = _id
         this.showModel = true
         this.showTitle = true

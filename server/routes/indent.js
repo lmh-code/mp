@@ -163,5 +163,45 @@ router.post('/basics/storeGoodsPageList', function (req, res, next) {
   })
 })
 
+/**
+ * @description: 判断货架中商品是否存在
+ */
+router.post('/shelfGoods/isExist', function (req, res, next) {
+  request.post({
+    url: indentUrl.isExist,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
+    } else {
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
+    }
+  })
+})
+
+/**
+ * @description: 保存货架商品
+ */
+router.post('/shelfGoods/save', function (req, res, next) {
+  request.post({
+    url: indentUrl.shelfGoodsSave,
+    method: "POST",
+    headers: req.headers,
+    body: JSON.stringify(req.body)
+  }, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
+      let result = body ? JSON.parse(body) : {}
+      res.json(response.statusCode, result)
+    } else {
+      let result = response.body ? JSON.parse(response.body) : {}
+      res.json(response.statusCode, result)
+    }
+  })
+})
+
 
 module.exports = router

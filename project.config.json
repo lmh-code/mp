@@ -57,9 +57,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 1,
 					"name": "查找添加商品",
 					"pathName": "pages/ShelvesMgt/ShelvesGoods/GoodsSearch/main",
+					"query": "shelfNo=fang03",
 					"scene": null
 				}
 			]
