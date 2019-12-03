@@ -86,7 +86,8 @@
 </style>
 <template>
   <div class="page-container">
-    <hi-search-view placeholder="请输入商品名称或编码" showScan="true" @doSearchHandel="doSearchHandel"></hi-search-view>
+    <hi-search-view placeholder="请输入商品名称或编码" showScan="true" @scanHandel="scanHandel" @doSearchHandel="doSearchHandel">
+    </hi-search-view>
     <empty-view v-if="noMore && pageNum === 1"></empty-view>
     <div class="goods-list-wrap" v-else>
       <div v-for="(item, index) in goodsList" :key="index" class="list-item">
@@ -136,7 +137,8 @@
         // 添加弹窗用
         showModel: false,
         // 确认框
-        showConfirm: false
+        showConfirm: false,
+        goodsNo: ''
       }
     },
     onShow() {
@@ -211,7 +213,13 @@
       cancelHandel() {
         this.showModel = false
       },
-      async checkIsExist(_params) {
+      async checkIsExist() {
+        let _params = {
+          storeNo: this.storeNo,
+          shelfNo: this.shelfNo,
+          goodsNo: this.goodsNo,
+          goodsId: this.goodsNo
+        }
         return new Promise((resolve, reject) => {
           this.$http.post({
             showLoading: true,
@@ -230,24 +238,25 @@
         })
       },
       async confirmHandel(params) {
-        let _params = {
-          storeNo: this.storeNo,
-          shelfNo: this.shelfNo,
-          goodsNo: params.goodsNo,
-          goodsId: params.goodsNo
-        }
-        let isExit = await this.checkIsExist(_params)
+        this.goodsNo = params.goodsNo
+        let isExit = await this.checkIsExist()
         if (isExit === 'true') {
           // TODO 存在
           this.showModel = false
           this.showConfirm = true
         } else {
           // 不存在直接添加
-          this.doInsertHandel(_params)
+          this.doInsertHandel()
         }
       },
-      doInsertHandel(_params) {
+      doInsertHandel() {
         let _this = this
+        let _params = {
+          storeNo: this.storeNo,
+          shelfNo: this.shelfNo,
+          goodsNo: this.goodsNo,
+          goodsId: this.goodsNo
+        }
         this.$http.post({
           showLoading: true,
           url: shelvesUrl.shelfGoodsSave,
@@ -257,6 +266,7 @@
           success: function (res) {
             if (res.code === 0) {
               utils.toast("添加成功", "none")
+              _this.showConfirm = false
               _this.showModel = false
             } else {
               utils.toast(res.msg, "none")
@@ -268,7 +278,10 @@
         this.showConfirm = false
       },
       confirmHandelAgin() {
-        console.log("继续添加")
+        this.doInsertHandel()
+      },
+      scanHandel() {
+        console.log("扫码成功")
       }
     },
     onReachBottom() {

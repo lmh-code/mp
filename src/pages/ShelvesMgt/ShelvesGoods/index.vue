@@ -93,7 +93,8 @@
 </style>
 <template>
   <div class="page-container">
-    <hi-search-view placeholder="请输入商品名称或编码" disabled="true" showScan="true" :pagePath="pagePath"></hi-search-view>
+    <hi-search-view placeholder="请输入商品名称或编码" disabled="true" showScan="true" :pagePath="pagePath"
+      @scanHandel="scanHandel"></hi-search-view>
     <div class="goods-list-wrap">
       <div v-for="(item, index) in goodsList" :key="index" class="list-item"
         :class="item.isTouchMove ? 'move-active' : ''" @touchstart="touchstart($event)"
@@ -273,6 +274,10 @@
             }
           }
         })
+      },
+
+      scanHandel() {
+        console.log("扫码成功")
       }
 
     }

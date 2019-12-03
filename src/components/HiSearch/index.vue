@@ -74,7 +74,7 @@
 </style>
 <template>
   <div class="page-container">
-    <div class="scan-wrap" v-if="showScan">
+    <div class="scan-wrap" v-if="showScan" @click="scanHandel">
       <image class="scan-icon" src="/static/images/scan_photo.png" mode="widthFix" lazy-load="false"></image>
     </div>
 
@@ -138,6 +138,10 @@
 
       doSearchHandel() {
         this.$emit("doSearchHandel", this.queryStr)
+      },
+
+      scanHandel() {
+        this.$emit("scanHandel")
       }
     }
   }

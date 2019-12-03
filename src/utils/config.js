@@ -12,7 +12,7 @@ const AuthorizationBasic = 'Basic d2ViOmQ4YmZjMzQwMWE3NTg5ZTc4NGIwNmJkZmdhMmFkMW
 if (productType === 1) {
   oldBasicUrl = `http://192.168.60.47:4444`
   basicUrl = `http://localhost:3069`
-  // basicUrl = `https://api-blx-test.benlai.com`
+  basicUrl = `https://api-blx-test.benlai.com`
 } else if (productType === 2) {
   oldBasicUrl = `https://retailapi-pre.benlai.com`
   basicUrl = `https://api-blx-pre.benlai.com`
